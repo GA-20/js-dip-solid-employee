@@ -1,134 +1,70 @@
-// Develop an employee management system that allows companies to manage their employee information efficiently. The system must provide functionality to add, edit, delete and list employees.
+const EmployeeManager = require("./employeeManager");
+const Engineer = require("./engineer");
+const HumanResources = require("./humanResources");
+const Director = require("./director");
 
-// Requirements:
-// RESTful API using Express.js to handle employee CRUD (Create, Read, Update, Delete) operations.
+(() => {
+  const employeeManager = new EmployeeManager();
 
-//  Exercise Details:
-// Create an Employee class with the following properties:
-// ID
-// Name
-// Last name
-// Post
-// Department
-// Salary
-// Implement an employee manager (GestorEmpleados) that allows you to add, edit, delete and list employees.
-// Use the Single Responsibility Principle (SRP) to ensure that each class has a single, well-defined responsibility.
-// Implement a controller (employeesController) that handles the
-// HTTP requests and use the employee manager to perform CRUD operations.
-// Use the Dependency Inversion Principle (DIP) to ensure that the controller depends on abstractions rather than concrete implementations.
-// It is not necessary to implement authentication or authorization for this exercise.
-
-// Additional notes:
-// This exercise is designed to practice applying SOLID principles in designing backend systems.
-
-class Employee {
-  constructor(id, name, lastName, post, department, salary) {
-    this.id = id;
-    this.name = name;
-    this.lastName = lastName;
-    this.post = post;
-    this.department = department;
-    this.salary = salary;
-  }
-}
-
-class EmployeeManager {
-  constructor() {
-    this.employees = [];
-  }
-
-  addEmployee(employee) {
-    this.employees.push(employee);
-  }
-
-  editEmployee(id, employee) {
-    const index = this.employees.findIndex((employee) => employee.id === id);
-    this.employees[index] = employee;
-  }
-
-  deleteEmployee(id) {
-    this.employees = this.employees.filter((employee) => employee.id !== id);
-  }
-
-  listEmployees() {
-    return this.employees;
-  }
-}
-
-class EmployeesController {
-  constructor(employeeManager) {
-    this.employeeManager = employeeManager;
-  }
-
-  addEmployee(employee) {
-    this.employeeManager.addEmployee(employee);
-  }
-
-  editEmployee(id, employee) {
-    this.employeeManager.editEmployee(id, employee);
-  }
-
-  deleteEmployee(id) {
-    this.employeeManager.deleteEmployee(id);
-  }
-
-  listEmployees() {
-    return this.employeeManager.listEmployees();
-  }
-}
-
-const employeeManager = new EmployeeManager();
-
-(function () {
-  const employee1 = new Employee(
+  const engineer = new Engineer(
     1,
     "John",
     "Doe",
-    "Software Engineer",
+    "Engineer",
     "Engineering",
-    50000
+    5000
   );
-  const employee2 = new Employee(
+  const hr = new HumanResources(
     2,
     "Jane",
-    "Smith",
-    "Product Manager",
-    "Product",
-    70000
+    "Doe",
+    "HR",
+    "Human Resources",
+    7000
   );
-
-  employeeManager.addEmployee(employee1);
-  employeeManager.addEmployee(employee2);
-
-  const employeesController = new EmployeesController(employeeManager);
-
-  console.log(employeesController.listEmployees());
-
-  const newEmployee = new Employee(
+  const director = new Director(
     3,
     "Alice",
-    "Johnson",
-    "Data Analyst",
-    "Data",
-    45000
+    "Doe",
+    "Director",
+    "Management",
+    10000
   );
-  employeesController.addEmployee(newEmployee);
 
-  console.log(employeesController.listEmployees());
+  employeeManager.addEmployee(engineer);
+  employeeManager.addEmployee(hr);
+  employeeManager.addEmployee(director);
 
-  const updatedEmployee = new Employee(
-    2,
-    "Jane",
-    "Smith",
-    "Product Manager",
-    "Product",
-    75000
+  console.log("All employees: ", employeeManager.listEmployees());
+  console.log("All salary budger: ", employeeManager.getSalaryBudget());
+
+  // -------------------
+
+  employeeManager.deleteEmployee(2);
+  console.log(
+    "All employees (after delete): ",
+    employeeManager.listEmployees()
   );
-  employeesController.editEmployee(2, updatedEmployee);
+  console.log(
+    "All salary budger (after delete): ",
+    employeeManager.getSalaryBudget()
+  );
 
-  console.log(employeesController.listEmployees());
+  // -------------------
 
-  employeesController.deleteEmployee(1);
+  const newDirector = new Director(
+    3,
+    "Alice",
+    "Doe",
+    "Director",
+    "Management",
+    12000
+  );
+  employeeManager.editEmployee(3, newDirector);
+  console.log(employeeManager.listEmployees());
+  console.log(employeeManager.getSalaryBudget());
 
-  console.log(employeesController.listEmployees());
+  console.log("Bonus for engineer: ", engineer.getBonusAmount());
+  console.log("Bonus for human resources: ", hr.getBonusAmount());
+  console.log("Bonus for director: ", director.getBonusAmount());
 })();
