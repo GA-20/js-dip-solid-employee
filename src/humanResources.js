@@ -6,7 +6,7 @@ class HumanResources extends Employee {
   }
 
   getBonusAmount() {
-    return 10; // Assuming 10% bonus for HR
+    return  this.salary * (10 / 100); // Assuming 10% bonus for HR
   }
 }
 
