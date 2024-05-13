@@ -1,7 +1,7 @@
-const EmployeeManager = require("./employeeManager");
-const Engineer = require("./engineer");
-const HumanResources = require("./humanResources");
-const Director = require("./director");
+const EmployeeManager = require("./src/employeeManager");
+const Engineer = require("./src/engineer");
+const HumanResources = require("./src/humanResources");
+const Director = require("./src/director");
 
 (() => {
   const employeeManager = new EmployeeManager();
@@ -14,6 +14,7 @@ const Director = require("./director");
     "Engineering",
     5000
   );
+
   const hr = new HumanResources(
     2,
     "Jane",
@@ -22,6 +23,7 @@ const Director = require("./director");
     "Human Resources",
     7000
   );
+
   const director = new Director(
     3,
     "Alice",
